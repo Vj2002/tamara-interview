@@ -16,42 +16,47 @@ Standing instructions for the Tamara AI-assisted Code Pairing round. Follow thes
 
 1. When the problem statement is pasted in, read it fully. Don't start coding immediately.
 2. Summarize your understanding back and wait for a go-ahead or clarifying answers before writing any code — requirement scope gets confirmed with the interviewer first, not assumed by me.
+3. A UI screenshot may or may not be given. If one is, treat it as part of the requirement scope: match its layout, spacing, and visual hierarchy as closely as the time budget allows, not just the described behavior. If none is given, design a clean, working UI on my own judgment — don't wait for or ask about visual spec that isn't coming.
 
 ## Stack & coding standards
 
-3. Never hallucinate or add unnecessary code.
-4. Follow best practices for Next.js / React applications.
-5. Default stack: Next.js (App Router — it's the current default router), TypeScript, Tailwind CSS, TanStack Query for API calls, React Hook Form + Zod for forms/validation.
-6. Locked dependency list, no discovery needed at scaffold time: `next`, `typescript`, `tailwindcss`, `@tanstack/react-query`, `react-hook-form`, `zod`, `@hookform/resolvers`, plus the test stack — `vitest`, `vite`, `@vitejs/plugin-react`, `jsdom`, `@testing-library/react`, `@testing-library/dom`, `@testing-library/jest-dom`, `@testing-library/user-event`. The test stack is in this locked list (not deferred to "when tests are needed") because the rubric guarantees testing gets graded regardless of which problem arrives — it's a near-certainty, not speculative infra, so the exception to "don't build infra nobody asked for" is deliberate and narrow (see item 15).
-7. No component should exceed 200–250 lines.
-8. Business logic always lives in custom hooks — keep the UI/presentation layer separate from it.
-9. API calls (real or mocked) go through a dedicated service layer, following standard Next.js conventions.
-10. Organize folders feature-wise, not by component-type or page-type.
-11. SSR by default for the page shell/initial data; use `"use client"` boundaries only for what's inherently interactive (forms, URL-state sync, etc.) — don't force server-rendering onto things that obviously need to be client components.
-12. Apply optimization patterns only where the problem actually warrants them: `next/image` over `<img>` when there are real images, ISR only when there's real static/semi-static data to justify it. Don't build infra nobody asked for.
-13. TanStack Query handles caching for API data — don't hand-roll caching on top of it.
-14. Weight effort toward boilerplate and structure: domain models, utility functions, folder/file structure.
-15. The test *tooling* (item 6) is set up at scaffold time regardless; writing actual test *files* still only happens once there's real code to test — don't write tests speculatively for a feature that doesn't exist yet. When tests are written, use React Testing Library, covering both rendering and business logic.
-16. Add comments explaining functionality where useful.
-17. Most important: code should read clearly enough that you can review it and I can point out mistakes or optimizations in it myself.
-18. Set up ESLint and Prettier (with sensible production-ready rule sets — not just the framework defaults) as part of scaffolding, and keep the codebase passing both throughout, so the solution looks and behaves like production code, not interview-demo code.
+4. Never hallucinate or add unnecessary code.
+5. Follow best practices for Next.js / React applications.
+6. Default stack: Next.js (App Router — it's the current default router), TypeScript, Tailwind CSS, TanStack Query for API calls, React Hook Form + Zod for forms/validation.
+7. Locked dependency list, no discovery needed at scaffold time: `next`, `typescript`, `tailwindcss`, `@tanstack/react-query`, `react-hook-form`, `zod`, `@hookform/resolvers`, plus the test stack — `vitest`, `vite`, `@vitejs/plugin-react`, `jsdom`, `@testing-library/react`, `@testing-library/dom`, `@testing-library/jest-dom`, `@testing-library/user-event`. The test stack is in this locked list (not deferred to "when tests are needed") because the rubric guarantees testing gets graded regardless of which problem arrives — it's a near-certainty, not speculative infra, so the exception to "don't build infra nobody asked for" is deliberate and narrow (see item 16).
+8. No component should exceed 200–250 lines.
+9. Business logic always lives in custom hooks — keep the UI/presentation layer separate from it.
+10. API calls (real or mocked) go through a dedicated service layer. For the interview, mock the API as plain TypeScript service functions that mirror a real request/response contract (including error shape and `AbortSignal` support) — not actual Next.js Route Handlers. Real route handlers are more realistic but cost setup time the 30–35 minute budget (item 33) doesn't afford.
+11. Organize folders feature-wise, not by component-type or page-type.
+12. SSR by default for the page shell/initial data; use `"use client"` boundaries only for what's inherently interactive (forms, URL-state sync, etc.) — don't force server-rendering onto things that obviously need to be client components.
+13. Apply optimization patterns only where the problem actually warrants them: `next/image` over `<img>` when there are real images, ISR only when there's real static/semi-static data to justify it. Don't build infra nobody asked for.
+14. TanStack Query handles caching for API data — don't hand-roll caching on top of it.
+15. Weight effort toward boilerplate and structure: domain models, utility functions, folder/file structure.
+16. The test _tooling_ (item 7) is set up at scaffold time regardless; writing actual test _files_ still only happens once there's real code to test — don't write tests speculatively for a feature that doesn't exist yet. When tests are written, use React Testing Library, covering both rendering and business logic.
+17. Add comments explaining functionality where useful.
+18. Most important: code should read clearly enough that you can review it and I can point out mistakes or optimizations in it myself.
+19. Set up ESLint and Prettier (with sensible production-ready rule sets — not just the framework defaults) as part of scaffolding, and keep the codebase passing both throughout, so the solution looks and behaves like production code, not interview-demo code.
+20. Accessibility is a hard target, not a best-effort nicety: aim for a Lighthouse accessibility score of 100. Concretely — every image has meaningful `alt` (or `alt=""` if decorative); every form input has an associated label; text/background contrast meets WCAG AA (≥4.5:1 normal text, ≥3:1 large text/icons); every interactive element is keyboard-reachable with a visible focus state; icon-only buttons/links get an `aria-label`; heading levels are sequential (no skipped levels); `<html lang="...">` is set; reach for ARIA only where semantic HTML genuinely isn't enough.
+21. All UI must be responsive — mobile-first, usable down to small phone widths and up through desktop, no fixed-pixel layouts that break on resize.
+22. All UI must be RTL-safe by default, regardless of whether the interviewer actually asks to see it demonstrated: Tamara operates primarily in Saudi Arabia, where Arabic (RTL) is a primary language. Use logical CSS properties (Tailwind's `ms-`/`me-`/`ps-`/`pe-`/`start-`/`end-`, not physical `ml-`/`mr-`/`pl-`/`pr-`/`left-`/`right-`) so layout doesn't break under `dir="rtl"`. A visible `dir` toggle in the UI is optional, added only if asked for or if time allows — the underlying code must be structurally RTL-safe either way. Full Arabic translation itself is out of scope.
+23. If the problem needs non-trivial UI components beyond plain HTML elements (dialogs, dropdowns, tabs, etc.), pick a shared component library rather than hand-rolling them — chosen specifically for RTL support, accessibility (keyboard/ARIA handling built in), and low interview setup cost, in that priority order. Default pick: shadcn/ui on Radix UI primitives — Radix primitives ship correct ARIA roles and keyboard interaction out of the box, respect a `DirectionProvider` for RTL, and shadcn's CLI copies in only the components actually used (no large dependency install, full control to adjust for RTL/a11y afterward). Not part of the locked scaffold-time list (item 7) since the need is problem-dependent — don't install it unless the problem actually calls for it. Whatever is chosen, document the choice and its tradeoffs in the README (item 26).
 
 ## Communication during the live interview
 
-19. Before any non-trivial change, state the tradeoff in one line as it's made — something you can repeat out loud to the interviewer in real time, not just read from the README afterward.
-20. If asked to justify a decision, give the real tradeoff — including angles that cut against the choice made. Don't retrofit a confident-sounding justification after the fact.
-21. After generating code, update the README with the tech choices and tradeoffs behind it, so the solution can be explained cleanly and discussed with the interviewer.
+24. Before any non-trivial change, state the tradeoff in one line as it's made — something you can repeat out loud to the interviewer in real time, not just read from the README afterward.
+25. If asked to justify a decision, give the real tradeoff — including angles that cut against the choice made. Don't retrofit a confident-sounding justification after the fact.
+26. Update the README once, at the end — after the working solution is complete and meets all (or almost all) edge cases, not incrementally after every feature. Cover the tech choices and tradeoffs behind the solution (including any component-library choice, item 23) so it can be explained cleanly and discussed with the interviewer.
 
 ## Working pace
 
-22. Pre-approved mechanical tasks (scaffolding, domain models, the URL-state hook, a focused unit test, refactoring) don't need re-confirmation before starting — only pause when something touches business-logic/requirement interpretation.
-23. For implementation-level details (naming, file placement, minor pattern choices), make the reasonable default and move on — don't turn trivia into a question. Reserve pausing for genuine requirement ambiguity (problem intake, above).
-24. Scaffolding is the one exception to "small steps": generate the full related set together in one pass (types + service + hooks + component skeletons + lint/format config + test runner config — `vitest.config.ts`, setup file, `test`/`test:watch` scripts), since that's pure setup with no judgment calls.
-25. Installing test-tooling packages is not the same as proving the test runner works — `npm install` succeeding does not mean `vitest run` will. Scaffolding isn't done until a smoke test (even a trivial placeholder) has actually been run successfully; discovering a missing peer dependency (e.g. `vite`, `@testing-library/dom`) only when tests are later written, under time pressure, is the exact mistake this rule exists to prevent — it cost ~4–5 minutes once already in this session.
-26. Once past scaffolding and into actual feature/problem-solving work, go one feature or file at a time and stop for a go-ahead — don't land a wall of code in one turn that hasn't been narrated or driven by you.
-27. After generating or editing code, run a typecheck (`tsc --noEmit`) and lint before considering the step done, so errors surface immediately instead of being debugged live in front of the interviewer.
-28. Even though the round is 60 minutes, budget as if only 30–35 minutes are available to reach an efficient, optimized, working solution that handles all edge cases — the rest of the time goes to discussion, review, and live modification, not initial implementation. Prioritize accordingly: get a correct, edge-case-complete solution first, polish only within that budget.
+27. Pre-approved mechanical tasks — scaffolding, the new problem's own domain models/types/constants (not just the generic scaffold), the URL-state hook, a focused unit test, refactoring — don't need re-confirmation before starting; only pause when something touches business-logic/requirement interpretation. The one-file-at-a-time rule (item 31) starts once business logic/hooks/components begin, not before.
+28. For implementation-level details (naming, file placement, minor pattern choices), make the reasonable default and move on — don't turn trivia into a question. Reserve pausing for genuine requirement ambiguity (problem intake, above).
+29. Scaffolding is the one exception to "small steps": generate the full related set together in one pass (types + service + hooks + component skeletons + lint/format config + test runner config — `vitest.config.ts`, setup file, `test`/`test:watch` scripts), since that's pure setup with no judgment calls.
+30. Installing test-tooling packages is not the same as proving the test runner works — `npm install` succeeding does not mean `vitest run` will. Scaffolding isn't done until a smoke test (even a trivial placeholder) has actually been run successfully; discovering a missing peer dependency (e.g. `vite`, `@testing-library/dom`) only when tests are later written, under time pressure, is the exact mistake this rule exists to prevent — it cost ~4–5 minutes once already in this session.
+31. Once past scaffolding/domain-modeling and into actual feature/business-logic work, go one feature or file at a time and stop for a go-ahead — don't land a wall of code in one turn that hasn't been narrated or driven by you.
+32. After generating or editing code, run a typecheck (`tsc --noEmit`) and lint before considering the step done, so errors surface immediately instead of being debugged live in front of the interviewer.
+33. Even though the round is 60 minutes, budget as if only 30–35 minutes are available to reach an efficient, optimized, working solution that handles all edge cases — the rest of the time goes to discussion, review, and live modification, not initial implementation. Prioritize accordingly: get a correct, edge-case-complete solution first, polish only within that budget.
 
 ## Commits
 
-29. When asked to commit, write a plain, simple commit message — no `Co-Authored-By: Claude` (or any AI attribution) trailer by default.
+34. When asked to commit, write a plain, simple commit message — no `Co-Authored-By: Claude` (or any AI attribution) trailer by default.
