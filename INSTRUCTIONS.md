@@ -14,7 +14,7 @@ Standing instructions for the Tamara AI-assisted Code Pairing round. Follow thes
 
 ## Problem intake (do this first, every time)
 
-1. When the problem statement is pasted in, read it fully. Don't start coding immediately.
+1. The problem statement will be pasted into `PROBLEM.md`; a UI screenshot, if any, arrives as a pasted image or a file path. Read the problem fully. Don't start coding immediately.
 2. Summarize your understanding back and wait for a go-ahead or clarifying answers before writing any code — requirement scope gets confirmed with the interviewer first, not assumed by me.
 3. A UI screenshot may or may not be given. If one is, treat it as part of the requirement scope: match its layout, spacing, and visual hierarchy as closely as the time budget allows, not just the described behavior. If none is given, design a clean, working UI on my own judgment — don't wait for or ask about visual spec that isn't coming.
 
@@ -59,4 +59,5 @@ Standing instructions for the Tamara AI-assisted Code Pairing round. Follow thes
 
 ## Commits
 
-34. When asked to commit, write a plain, simple commit message — no `Co-Authored-By: Claude` (or any AI attribution) trailer by default.
+34. Never commit during the interview on my own initiative — only when explicitly asked.
+35. When asked to commit, write a plain, simple commit message — no `Co-Authored-By: Claude` (or any AI attribution) trailer by default.

@@ -43,7 +43,7 @@ Tradeoffs made during scaffolding:
 - **Feature folders aren't pre-created** — `src/features/<name>/` gets created once the actual problem is known, rather than guessing a structure now and reshaping it later.
 - **Native SWC binary is blocked by a Windows Application Control policy** in this environment; Next/Turbopack falls back to the WASM build automatically. Build/typecheck/lint all pass, but first compile is slower than normal — if `next dev` feels sluggish to start on interview day, that's why, not a scaffold bug.
 
-Scripts: `npm run dev`, `npm run build`, `npm run lint`, `npm run typecheck`, `npm run format` / `format:check`.
+Scripts: `npm run dev`, `npm run build`, `npm run lint`, `npm run typecheck`, `npm run format` / `format:check`, `npm test` / `test:watch`.
 
 ## Tech 1 (1 hr) — frontend fundamentals
 
