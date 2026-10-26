@@ -14,9 +14,9 @@ Standing instructions for the Tamara AI-assisted Code Pairing round. Follow thes
 
 ## Problem intake (do this first, every time)
 
-1. The problem statement will be pasted into `PROBLEM.md`; a UI screenshot, if any, arrives as a pasted image or a file path. Read the problem fully. Don't start coding immediately.
-2. Summarize your understanding back and wait for a go-ahead or clarifying answers before writing any code — requirement scope gets confirmed with the interviewer first, not assumed by me.
-3. A UI screenshot may or may not be given. If one is, treat it as part of the requirement scope: match its layout, spacing, and visual hierarchy as closely as the time budget allows, not just the described behavior. If none is given, design a clean, working UI on my own judgment — don't wait for or ask about visual spec that isn't coming.
+1. I won't get the full problem statement. I'll get a UI screenshot to replicate, saved in `src/screenshot/`, and the user's own written summary of the problem in the chat prompt, possibly in parts. Don't fill gaps in the summary with guesses about what the full problem says — ask instead.
+2. First reply, before any code: restate what I understood, then list my questions — edge cases, ambiguous requirements, and anything the screenshot shows that the summary doesn't explain (or the reverse). Discuss them, and write no code until the user gives an explicit go-ahead. Then build following this file.
+3. Treat the screenshot as part of the requirement scope: match its layout, spacing, and visual hierarchy as closely as the time budget allows, not just the described behavior. If no screenshot comes, design a clean, working UI on my own judgment. Use the `frontend-design` skill for UI work. With a screenshot, the screenshot decides every visual choice (layout, fonts, colors, spacing, even styles the skill calls generic); the skill only adds its quality floor and copy guidance — responsive layout, visible focus, reduced motion, accessible contrast, button text that says what happens, errors that say how to fix the problem, empty states that prompt action. Without a screenshot, follow its full design process, kept short to fit the time budget. The skill covers visual design only; code structure still follows this file.
 
 ## Stack & coding standards
 
