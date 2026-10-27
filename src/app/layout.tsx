@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Providers } from "./providers";
+import type { ChildrenProps } from "./types";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -18,9 +19,7 @@ export const metadata: Metadata = {
   description: "Workspace for the Tamara AI-assisted code pairing round.",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({ children }: ChildrenProps) {
   return (
     <html
       lang="en"
